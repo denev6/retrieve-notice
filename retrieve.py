@@ -6,7 +6,6 @@ import torch
 import faiss
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
-import requests
 
 load_dotenv()
 
@@ -39,25 +38,6 @@ def retrieve(query, k):
     distances, indices = index.search(query_embedding, k)
     return distances[0], indices[0]
 
-def query_for_llm(cursor, table, query, llm_url, k=3):
-    _, notice_ids = retrieve(query, k)
-    llm_query = ""
-    for idx, notice_id in enumerate(notice_ids, start=1):
-        parsed = parse_sqlite(cursor, table, notice_id)
-        if parsed is None:
-            print(f"Notice {notice_id} is not found.")
-            continue
-
-        title, content = parsed
-        llm_query += f"{title}: {content}\n"
-
-    req_json = {"text": llm_query}
-    response = requests.post(llm_url, json=req_json)
-    if response.status_code != 200:
-        return response.status_code
-    resp_json = response.json()
-    return resp_json
-
 
 def iter_retrieve_for_streamlit(cursor, table, query, k=3):
     start = time.time()
@@ -89,6 +69,5 @@ if __name__ == "__main__":
             raise ValueError("Database connection is closed!")
 
         query = "의료 인공지능 마이크로디그리"
-        llm_url = "https://b1e7-34-16-244-168.ngrok-free.app"
-        response = query_for_llm(cursor, TABLE, query, f"{llm_url}/llm", k=2)
-        print(response)
+        for info in iter_retrieve_for_streamlit(cursor, TABLE, query, k=2):
+            print(info)
