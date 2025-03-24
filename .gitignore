@@ -1,7 +1,10 @@
 .idea
 .vscode
 __pycache__
+/test.py
 
 /snunlp
 /all-MiniLM-L6-v2
 /lcw99
+
+/utils/demo*
