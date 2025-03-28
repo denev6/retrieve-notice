@@ -12,12 +12,12 @@ if not os.path.exists(ENV_PATH):
 
 load_dotenv(ENV_PATH)
 
-# Save Openai API token
+# Save Openai API key
 parser = argparse.ArgumentParser(description="Config .env file")
-parser.add_argument("--token", help="OpenAI API Token", required=True)
+parser.add_argument("--openai", help="OpenAI API Key", required=True)
 args = parser.parse_args()
 
-set_key(ENV_PATH, "OPENAI_TOKEN", args.token)
+set_key(ENV_PATH, "OPENAI_KEY", args.openai)
 
 # Save encoder
 ENCODER = os.getenv("ENCODER_MODEL")

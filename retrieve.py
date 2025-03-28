@@ -14,7 +14,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 FAISS_INDEX = os.getenv("FAISS_INDEX")
 ENCODER_MODEL = os.getenv("ENCODER_MODEL")
 BASE_URL = os.getenv("BASE_URL")
-OPENAI_TOKEN = os.getenv("OPENAI_TOKEN")
+OPENAI_TOKEN = os.getenv("OPENAI_KEY")
 
 index = faiss.read_index(FAISS_INDEX)
 encoder = SentenceTransformer(ENCODER_MODEL, cache_folder=ENCODER_MODEL, device=device)
@@ -31,6 +31,7 @@ def summarize(user_query, references, model="gpt-3.5-turbo"):
     Here are the documents:
     {references}
     You must answer in Korean based on the documents.
+    If you don't know the answer, just say that you don't know, don't try to make up an answer.
     """
 
     user_prompt = f"User question: '{str(user_query.strip())}'."

@@ -9,7 +9,7 @@ SKKU Retriever: School Notice Search Chatbot.
 ```bash
 $ pip install -r requirements.txt
 $ huggingface-cli login
-$ python config.py --token YOUR_OPENAI_TOKEN
+$ python config.py --openai YOUR_OPENAI_KEY
 $ streamlit run main.py
 ```
 
@@ -18,7 +18,7 @@ $ streamlit run main.py
 
 ## Architecture
 
-![overview](./utils/overview.png)
+![overview](https://denev6.github.io/assets/posts/retrieve-notice/overview.png)
 
 1. Crawl notices: [crawl.py](./utils/crawl.py)
 2. Create database: [json2sqlite.py](./utils/json2sqlite.py)
